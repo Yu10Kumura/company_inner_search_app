@@ -71,7 +71,6 @@ protobuf==5.29.1
 pulsar-client==3.8.0
 pyarrow==18.1.0
 pydantic==2.9.2
-git add requirements.txt
 pydeck==0.9.1
 Pygments==2.18.0
 PyMuPDF==1.25.0
