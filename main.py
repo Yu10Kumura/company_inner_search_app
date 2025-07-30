@@ -40,13 +40,8 @@ try:
     # 初期化処理（「initialize.py」の「initialize」関数を実行）
     initialize()
 except Exception as e:
-    # エラーログの出力
     logger.error(f"{ct.INITIALIZE_ERROR_MESSAGE}\n{e}")
-    # 詳細なエラーメッセージの画面表示（デバッグ用）
-    st.error(f"{ct.INITIALIZE_ERROR_MESSAGE}\n詳細: {str(e)}", icon=ct.ERROR_ICON)
-    import traceback
-    st.text(traceback.format_exc())  # スタックトレースも表示
-    # 後続の処理を中断
+    st.error(utils.build_error_message(ct.INITIALIZE_ERROR_MESSAGE), icon=ct.ERROR_ICON)
     st.stop()
 
 # アプリ起動時のログファイルへの出力
