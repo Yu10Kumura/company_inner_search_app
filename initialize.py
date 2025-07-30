@@ -17,7 +17,7 @@ from docx import Document
 from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import DocArrayInMemorySearch
 import constants as ct
 
 
@@ -132,7 +132,8 @@ def initialize_retriever():
     splitted_docs = text_splitter.split_documents(docs_all)
 
     # ベクターストアの作成
-    db = FAISS.from_documents(splitted_docs, embeddings)
+    db = DocArrayInMemorySearch.from_documents(splitted_docs, embeddings)
+
 
 
     # ベクターストアを検索するRetrieverの作成
