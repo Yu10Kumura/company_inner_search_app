@@ -17,7 +17,9 @@ from docx import Document
 from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import DocArrayInMemorySearch
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 import constants as ct
 
 
@@ -132,9 +134,13 @@ def initialize_retriever():
     splitted_docs = text_splitter.split_documents(docs_all)
 
     # ベクターストアの作成
-    db = DocArrayInMemorySearch.from_documents(splitted_docs, embeddings)
+    vectorizer = TfidfVectorizer(max_features=1000, stop_words='english')
+    texts = [doc.page_content for doc in splitted_docs]
+    tfidf_matrix = vectorizer.fit_transform(texts)
 
-
+    st.session_state.vectorizer = vectorizer
+    st.session_state.tfidf_matrix = tfidf_matrix
+    st.session_state.docs = splitted_docs
 
     # ベクターストアを検索するRetrieverの作成
     st.session_state.retriever = db.as_retriever(search_kwargs={"k": 3})
